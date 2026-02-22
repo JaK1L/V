@@ -191,7 +191,108 @@ if (contactForm) {
             submitBtn.disabled = false;
         }
     });
+
+    // ========== СЛАЙДЕР ПРОЦЕССА РАБОТЫ ==========
+document.addEventListener('DOMContentLoaded', function() {
+    const sliderWrapper = document.getElementById('sliderWrapper');
+    const slides = document.querySelectorAll('.slider-slide');
+    const prevBtn = document.getElementById('sliderPrev');
+    const nextBtn = document.getElementById('sliderNext');
+    const dots = document.querySelectorAll('.dot');
+    
+    if (!sliderWrapper || slides.length === 0) return;
+    
+    let currentIndex = 0;
+    const slideCount = slides.length;
+    
+    // Функция обновления активной точки
+    function updateDots(index) {
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+    
+    // Функция переключения слайда
+    function goToSlide(index) {
+        if (index < 0) index = slideCount - 1;
+        if (index >= slideCount) index = 0;
+        
+        currentIndex = index;
+        
+        // Прокручиваем слайдер
+        slides[currentIndex].scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'start'
+        });
+        
+        updateDots(currentIndex);
+    }
+    
+    // Кнопка "Далее"
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            goToSlide(currentIndex + 1);
+        });
+    }
+    
+    // Кнопка "Назад"
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            goToSlide(currentIndex - 1);
+        });
+    }
+    
+    // Клик по точкам
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+    });
+    
+    // Автоматическое определение активного слайда при скролле
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const index = Array.from(slides).indexOf(entry.target);
+                currentIndex = index;
+                updateDots(currentIndex);
+            }
+        });
+    }, {
+        threshold: 0.5,
+        root: sliderWrapper,
+        rootMargin: '0px'
+    });
+    
+    slides.forEach(slide => observer.observe(slide));
+    
+    // Поддержка свайпов на мобильных
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    sliderWrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    sliderWrapper.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        
+        if (touchStartX - touchEndX > 50) {
+            // Свайп влево - следующий слайд
+            goToSlide(currentIndex + 1);
+        } else if (touchEndX - touchStartX > 50) {
+            // Свайп вправо - предыдущий слайд
+            goToSlide(currentIndex - 1);
+        }
+    }, { passive: true });
+});
 }
+
 
 
 
