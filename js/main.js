@@ -125,7 +125,6 @@ document.querySelectorAll('.service-card, .portfolio-item, .stat').forEach(el =>
 window.addEventListener('scroll', animateOnScroll);
 window.addEventListener('load', animateOnScroll);
 
-// Contact form handling with Telegram
 // Contact form handling
 const contactForm = document.getElementById('contactForm');
 
@@ -220,4 +219,5 @@ if (contactForm) {
     });
 
 }
+
 
