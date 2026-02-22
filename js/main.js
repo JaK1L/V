@@ -1,4 +1,3 @@
-
 // Preloader
 window.addEventListener('load', () => {
     const preloader = document.querySelector('.preloader');
@@ -9,8 +8,6 @@ window.addEventListener('load', () => {
         }, 500);
     }
 });
-
-
 
 // Navbar scroll effect
 const navbar = document.querySelector('.navbar');
@@ -292,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: true });
 });
 }
+
 
 
 
