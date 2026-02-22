@@ -975,7 +975,43 @@ section {
     .process-card__title {
         font-size: 1.3rem;
     }
+    /* ФИКС ДЛЯ ЯНДЕКС.БРАУЗЕРА */
+.process-grid {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 25px 1fr 25px 1fr 25px 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
 }
+
+.process-card {
+    width: 100%;
+    min-width: 0; /* Фикс для Яндекс.Браузера */
+    word-wrap: break-word;
+}
+
+@supports not (gap: 25px) {
+    .process-grid {
+        gap: 0;
+        margin: -12.5px;
+    }
+    .process-card {
+        margin: 12.5px;
+        width: calc(25% - 25px);
+    }
+}
+
+/* Дополнительный фикс для старых версий */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* IE фикс */
+    .process-card {
+        width: calc(25% - 20px);
+        float: left;
+        margin: 10px;
+    }
+}
+
+
 
 
 
