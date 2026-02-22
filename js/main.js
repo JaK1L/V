@@ -123,6 +123,7 @@ window.addEventListener('scroll', animateOnScroll);
 window.addEventListener('load', animateOnScroll);
 
 // Contact form handling
+// Contact form handling
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
@@ -154,9 +155,9 @@ if (contactForm) {
                 "💬 Сообщение: " + data.message + "\n" +
                 "⚡️ Предпочитает: " + (data.prefer_telegram ? 'Telegram' : 'Email');
             
-// api
-            const botToken = process.env.BOT_TOKEN || 'заглушка';
-            const chatId = process.env.CHAT_ID || 'заглушка';
+            // Используем переменные из env.js (которые создаст GitHub Actions)
+            const botToken = window.BOT_TOKEN || '8569305455:AAGYHve7l3tetUsOcOakn-O4CijldLoQBKg';
+            const chatId = window.CHAT_ID || '-1003740262089';
             
             const response = await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
                 method: 'POST',
