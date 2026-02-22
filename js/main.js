@@ -148,33 +148,6 @@ if (contactForm) {
         submitBtn.disabled = true;
         
         try {
-            // Отправляем данные на свой PHP файл (токен спрятан там)
-            const response = await fetch('send_telegram.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                alert('Спасибо! Сообщение отправлено. Я свяжусь с вами скоро.');
-                contactForm.reset();
-            } else {
-                alert('Ошибка отправки. Попробуйте позже или напишите напрямую в Telegram.');
-            }
-            
-        } catch (error) {
-            alert('Произошла ошибка. Проверьте интернет и попробуйте снова.');
-            console.error('Error:', error);
-        } finally {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    });
-}
             // Формируем сообщение
             const message = `
 📬 Новая заявка с сайта!
@@ -186,6 +159,10 @@ if (contactForm) {
 💬 Сообщение: ${data.message}
 ⚡️ Предпочитает: ${data.prefer_telegram ? 'Telegram' : 'Email'}
             `;
+            
+            // Отправляем в Telegram (токен прямо в коде - временно!)
+            const botToken = '8569305455:AAGYHve7l3tetUsOcOakn-O4CijldLoQBKg';
+            const chatId = '-1003740262089';
             
             const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
@@ -206,18 +183,16 @@ if (contactForm) {
                 contactForm.reset();
             } else {
                 alert('Ошибка отправки. Попробуйте позже или напишите напрямую в Telegram.');
-                console.error('Telegram error:', result);
             }
             
         } catch (error) {
             alert('Произошла ошибка. Проверьте интернет и попробуйте снова.');
-            console.error('Error:', error);
         } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }
     });
-
 }
+
 
 
