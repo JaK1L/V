@@ -149,22 +149,19 @@ if (contactForm) {
         
         try {
             // Формируем сообщение
-            const message = `
-📬 Новая заявка с сайта!
-
-👤 Имя: ${data.name}
-📧 Email: ${data.email || 'не указан'}
-📱 Telegram: @${data.telegram || 'не указан'}
-📝 Тема: ${data.subject}
-💬 Сообщение: ${data.message}
-⚡️ Предпочитает: ${data.prefer_telegram ? 'Telegram' : 'Email'}
-            `;
+            const message = "📬 Новая заявка с сайта!\n\n" +
+                "👤 Имя: " + data.name + "\n" +
+                "📧 Email: " + (data.email || 'не указан') + "\n" +
+                "📱 Telegram: @" + (data.telegram || 'не указан') + "\n" +
+                "📝 Тема: " + data.subject + "\n" +
+                "💬 Сообщение: " + data.message + "\n" +
+                "⚡️ Предпочитает: " + (data.prefer_telegram ? 'Telegram' : 'Email');
             
-            // Отправляем в Telegram (токен прямо в коде - временно!)
+            // Отправляем в Telegram
             const botToken = '8569305455:AAGYHve7l3tetUsOcOakn-O4CijldLoQBKg';
             const chatId = '-1003740262089';
             
-            const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            const response = await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -183,16 +180,19 @@ if (contactForm) {
                 contactForm.reset();
             } else {
                 alert('Ошибка отправки. Попробуйте позже или напишите напрямую в Telegram.');
+                console.log('Telegram error:', result);
             }
             
         } catch (error) {
             alert('Произошла ошибка. Проверьте интернет и попробуйте снова.');
+            console.log('Error:', error);
         } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }
     });
 }
+
 
 
 
