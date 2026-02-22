@@ -325,97 +325,183 @@
 
     <!-- Футер -->
     <footer class="footer">
-            <!-- Красивый счетчик -->
-<div class="stats-counter">
-    <div class="stats-icon">👥</div>
-    <div class="stats-info">
-        <span class="stats-label">Нас уже</span>
-        <span class="stats-number" id="totalVisitors">0</span>
-        <span class="stats-label">человек</span>
-    </div>
-</div>
         <div class="container">
             <div class="footer__content">
                 <p>&copy; 2026 Дмитрий Лышников. Все права защищены.</p>
                 <p>Сделано с <i class="fas fa-heart" style="color: #ff6b6b;"></i> для вас</p>
                 <p>Сайт полностью сделан с помощью ИИ</p>
-            </div>
+                <!-- КРАСИВЫЙ СЧЕТЧИК ПОСЕТИТЕЛЕЙ -->
+<div class="visitor-counter">
+    <div class="counter-icon">
+        <i class="fas fa-users"></i>
+    </div>
+    <div class="counter-content">
+        <span class="counter-label">Нас уже посетило</span>
+        <div class="counter-number-wrapper">
+            <span class="counter-number" id="visitorCount">0</span>
+            <span class="counter-unit">человек</span>
         </div>
-    </footer>
-
-
+    </div>
+</div>
 
 <style>
-    .stats-counter {
+    .visitor-counter {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        padding: 15px 30px;
+        padding: 20px 35px;
         border-radius: 60px;
         display: inline-flex;
         align-items: center;
         gap: 20px;
-        box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3);
-        margin: 30px 0;
+        margin: 25px 0 15px;
+        box-shadow: 0 15px 35px rgba(108, 92, 231, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease;
     }
-    .stats-icon {
-        font-size: 2.5rem;
-        background: rgba(255,255,255,0.2);
-        width: 60px;
-        height: 60px;
+
+    .visitor-counter:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(108, 92, 231, 0.5);
+    }
+
+    .counter-icon {
+        background: rgba(255, 255, 255, 0.2);
+        width: 55px;
+        height: 55px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 1.8rem;
+        color: white;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
-    .stats-info {
+
+    .counter-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .counter-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+    }
+
+    .counter-number-wrapper {
         display: flex;
         align-items: baseline;
         gap: 8px;
-        color: white;
     }
-    .stats-label {
-        font-size: 1rem;
-        opacity: 0.9;
-    }
-    .stats-number {
-        font-size: 2.2rem;
+
+    .counter-number {
+        font-size: 2.5rem;
         font-weight: 800;
+        color: white;
         line-height: 1;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        min-width: 80px;
+        text-align: center;
     }
-    
-    @media (max-width: 480px) {
-        .stats-counter {
-            padding: 12px 20px;
+
+    .counter-unit {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .visitor-counter {
+            padding: 15px 25px;
+            gap: 15px;
         }
-        .stats-icon {
+        .counter-icon {
             width: 45px;
             height: 45px;
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
-        .stats-number {
-            font-size: 1.8rem;
+        .counter-number {
+            font-size: 2rem;
+            min-width: 60px;
+        }
+        .counter-label {
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .visitor-counter {
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            border-radius: 40px;
+        }
+        .counter-content {
+            align-items: center;
+        }
+        .counter-number-wrapper {
+            justify-content: center;
         }
     }
 </style>
 
 <script>
-    // Анимированный счетчик
-    document.addEventListener('DOMContentLoaded', function() {
-        const counter = document.getElementById('totalVisitors');
-        const target = 1547; // Задай свое число
+    document.addEventListener('DOMContentLoaded', async function() {
+        const counterElement = document.getElementById('visitorCount');
         
-        let current = 0;
-        const increment = target / 50; // Плавность анимации
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                counter.textContent = target.toLocaleString();
-                clearInterval(timer);
-            } else {
-                counter.textContent = Math.floor(current).toLocaleString();
+        try {
+            // Уникальный идентификатор твоего сайта
+            const siteId = 'jak1l-github-io-v'; // меняй на свой
+            
+            // Делаем запрос к API (увеличиваем счетчик)
+            const response = await fetch(`https://api.counterapi.dev/v1/jak1l/${siteId}/up`);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        }, 30);
+            
+            const data = await response.json();
+            const targetCount = data.count;
+            
+            // Анимация нарастания цифр
+            let currentCount = 0;
+            const duration = 1000; // 1 секунда анимации
+            const steps = 50;
+            const increment = targetCount / steps;
+            let step = 0;
+            
+            const timer = setInterval(() => {
+                step++;
+                if (step >= steps) {
+                    counterElement.textContent = targetCount.toLocaleString('ru-RU');
+                    clearInterval(timer);
+                } else {
+                    currentCount += increment;
+                    counterElement.textContent = Math.floor(currentCount).toLocaleString('ru-RU');
+                }
+            }, duration / steps);
+            
+        } catch (error) {
+            console.error('Ошибка счетчика:', error);
+            // Запасное значение, если API недоступно
+            counterElement.textContent = '1,234';
+            
+            // Пробуем localStorage как резервный вариант
+            try {
+                let count = localStorage.getItem('visitorCount') || 1234;
+                count = parseInt(count) + 1;
+                localStorage.setItem('visitorCount', count);
+                counterElement.textContent = count.toLocaleString('ru-RU');
+            } catch (e) {
+                // Игнорируем ошибки localStorage
+            }
+        }
     });
 </script>
+            </div>
+        </div>
+    </footer>
 
     <!-- Кнопка наверх -->
     <button class="scroll-top" id="scrollTop">
@@ -440,6 +526,7 @@
 </body>
 
 </html>
+
 
 
 
