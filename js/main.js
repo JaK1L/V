@@ -154,9 +154,9 @@ if (contactForm) {
                 "💬 Сообщение: " + data.message + "\n" +
                 "⚡️ Предпочитает: " + (data.prefer_telegram ? 'Telegram' : 'Email');
             
-            // Отправляем в Telegram
-            const botToken = '8569305455:AAGYHve7l3tetUsOcOakn-O4CijldLoQBKg';
-            const chatId = '-1003740262089';
+// api
+            const botToken = process.env.BOT_TOKEN || 'заглушка';
+            const chatId = process.env.CHAT_ID || 'заглушка';
             
             const response = await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
                 method: 'POST',
@@ -289,3 +289,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, { passive: true });
 });
+
