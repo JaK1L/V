@@ -188,8 +188,9 @@ if (contactForm) {
             submitBtn.disabled = false;
         }
     });
+}
 
-    // ========== СЛАЙДЕР ПРОЦЕССА РАБОТЫ ==========
+// ========== СЛАЙДЕР ПРОЦЕССА РАБОТЫ ==========
 document.addEventListener('DOMContentLoaded', function() {
     const sliderWrapper = document.getElementById('sliderWrapper');
     const slides = document.querySelectorAll('.slider-slide');
@@ -288,10 +289,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, { passive: true });
 });
-}
-
-
-
-
-
-
