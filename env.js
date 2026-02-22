@@ -1,0 +1,2 @@
+window.BOT_TOKEN = '8569305455:AAGYHve7l3tetUsOcOakn-O4CijldLoQBKg';
+window.CHAT_ID = '-1003740262089';
