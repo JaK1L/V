@@ -41,7 +41,7 @@ body {
 }
 
 .background-image {
-    background-image: url('../images/fon.jpg');
+    background-image: url('');
     background-size: cover;      /* Растягивается на весь экран */
     background-position: center; /* Центрируется */
     background-repeat: no-repeat; /* Не повторяется */
@@ -871,4 +871,5 @@ section {
     cursor: pointer;
     accent-color: var(--primary);
 }
+
 }
