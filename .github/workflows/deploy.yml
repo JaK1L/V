@@ -3,22 +3,44 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
       
-      # Создаем .env файл с секретами
+      # Создаем временный файл с переменными
       - name: Create env file
         run: |
-          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" > .env
-          echo "CHAT_ID=${{ secrets.CHAT_ID }}" >> .env
+          echo "// ВНИМАНИЕ: Этот файл генерируется автоматически" > env.js
+          echo "window.BOT_TOKEN = '${{ secrets.BOT_TOKEN }}';" >> env.js
+          echo "window.CHAT_ID = '${{ secrets.CHAT_ID }}';" >> env.js
       
-      # Твой процесс сборки
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      # Добавляем env.js в index.html
+      - name: Inject env into HTML
+        run: |
+          sed -i '/<\/head>/i <script src="env.js"></script>' index.html
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          path: '.'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
