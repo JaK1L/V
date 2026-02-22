@@ -188,10 +188,6 @@ if (contactForm) {
 ⚡️ Предпочитает: ${data.prefer_telegram ? 'Telegram' : 'Email'}
             `;
             
-            // Отправляем в Telegram
-            const botToken = '8569305455:AAGYHve7l3tetUsOcOakn-O4CijldLoQBKg';  // Замени на свой токен
-            const chatId = '-1003740262089';      // Замени на свой chat_id
-            
             const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
                 headers: {
@@ -224,3 +220,4 @@ if (contactForm) {
     });
 
 }
+
