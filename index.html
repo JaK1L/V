@@ -334,6 +334,88 @@
         </div>
     </footer>
 
+    <!-- Красивый счетчик -->
+<div class="stats-counter">
+    <div class="stats-icon">👥</div>
+    <div class="stats-info">
+        <span class="stats-label">Нас уже</span>
+        <span class="stats-number" id="totalVisitors">0</span>
+        <span class="stats-label">человек</span>
+    </div>
+</div>
+
+<style>
+    .stats-counter {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        padding: 15px 30px;
+        border-radius: 60px;
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3);
+        margin: 30px 0;
+    }
+    .stats-icon {
+        font-size: 2.5rem;
+        background: rgba(255,255,255,0.2);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .stats-info {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        color: white;
+    }
+    .stats-label {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    .stats-number {
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+    
+    @media (max-width: 480px) {
+        .stats-counter {
+            padding: 12px 20px;
+        }
+        .stats-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 2rem;
+        }
+        .stats-number {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<script>
+    // Анимированный счетчик
+    document.addEventListener('DOMContentLoaded', function() {
+        const counter = document.getElementById('totalVisitors');
+        const target = 1547; // Задай свое число
+        
+        let current = 0;
+        const increment = target / 50; // Плавность анимации
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                counter.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                counter.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 30);
+    });
+</script>
+
     <!-- Кнопка наверх -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
@@ -357,6 +439,7 @@
 </body>
 
 </html>
+
 
 
 
